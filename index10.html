@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthy Food Calorie Check</title>
+    <link rel="stylesheet" href="style5.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Healthy Food Calorie Check</h1>
+        <p>Select foods to calculate your total calorie intake</p>
+        
+        <div class="calorie-checker">
+            <div class="food-selection">
+                <h2>Select Foods</h2>
+                <div class="food-categories">
+                    <div class="category">
+                        <h3>Fruits</h3>
+                        <div class="food-options">
+                            <label><input type="checkbox" data-calories="52"> Apple (52 cal)</label>
+                            <label><input type="checkbox" data-calories="89"> Banana (89 cal)</label>
+                            <label><input type="checkbox" data-calories="43"> Blueberries (43 cal per 1/2 cup)</label>
+                            <label><input type="checkbox" data-calories="50"> Orange (50 cal)</label>
+                        </div>
+                    </div>
+                    
+                    <div class="category">
+                        <h3>Vegetables</h3>
+                        <div class="food-options">
+                            <label><input type="checkbox" data-calories="25"> Broccoli (25 cal per 1/2 cup)</label>
+                            <label><input type="checkbox" data-calories="41"> Carrot (41 cal)</label>
+                            <label><input type="checkbox" data-calories="33"> Spinach (33 cal per cup)</label>
+                            <label><input type="checkbox" data-calories="30"> Cucumber (30 cal per cup)</label>
+                        </div>
+                    </div>
+                    
+                    <div class="category">
+                        <h3>Proteins</h3>
+                        <div class="food-options">
+                            <label><input type="checkbox" data-calories="128"> Grilled Chicken (128 cal per 100g)</label>
+                            <label><input type="checkbox" data-calories="85"> Salmon (85 cal per 50g)</label>
+                            <label><input type="checkbox" data-calories="176"> Tofu (176 cal per 100g)</label>
+                            <label><input type="checkbox" data-calories="55"> Egg (55 cal)</label>
+                        </div>
+                    </div>
+                    
+                    <div class="category">
+                        <h3>Grains</h3>
+                        <div class="food-options">
+                            <label><input type="checkbox" data-calories="68"> Brown Rice (68 cal per 1/2 cup)</label>
+                            <label><input type="checkbox" data-calories="56"> Quinoa (56 cal per 1/2 cup)</label>
+                            <label><input type="checkbox" data-calories="82"> Whole Wheat Bread (82 cal per slice)</label>
+                            <label><input type="checkbox" data-calories="170"> Oatmeal (170 cal per cup)</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="calorie-result">
+                <h2>Your Total Calories</h2>
+                <div class="total-calories">0</div>
+                <p class="calorie-message">Select foods to see your total calorie intake</p>
+                <div class="calorie-scale">
+                    <div class="scale-bar"></div>
+                    <div class="scale-labels">
+                        <span>Low</span>
+                        <span>Moderate</span>
+                        <span>High</span>
+                    </div>
+                </div>
+                <button id="reset-btn">Reset Selection</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script5.js"></script>
+</body>
+</html>

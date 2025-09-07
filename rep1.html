@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Profile</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --text-color: #333;
+            --text-light: #7f8c8d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .doctor-header {
+            display: flex;
+            flex-wrap: wrap;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        
+        .doctor-image {
+            flex: 0 0 300px;
+            height: 300px;
+            overflow: hidden;
+        }
+        
+        .doctor-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .doctor-info {
+            flex: 1;
+            padding: 30px;
+            position: relative;
+        }
+        
+        .doctor-name {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .doctor-specialty {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .doctor-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-light);
+        }
+        
+        .meta-item i {
+            color: var(--secondary-color);
+        }
+        
+        .doctor-rating {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .stars {
+            color: #f1c40f;
+        }
+        
+        .rating-count {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .appointment-btn {
+            position: absolute;
+            right: 30px;
+            top: 30px;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .appointment-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .appointment-btn.disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+        
+        .doctor-details {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .details-section {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-color);
+        }
+        
+        .overview-text {
+            margin-bottom: 15px;
+        }
+        
+        .experience-item {
+            margin-bottom: 20px;
+        }
+        
+        .experience-period {
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+        
+        .experience-position {
+            font-weight: 600;
+            margin: 5px 0;
+        }
+        
+        .memberships-list, .publications-list, .conditions-list {
+            list-style-type: none;
+        }
+        
+        .memberships-list li, .publications-list li, .conditions-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        
+        .memberships-list li:last-child, .publications-list li:last-child, .conditions-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .memberships-list li i, .publications-list li i {
+            margin-right: 10px;
+            color: var(--secondary-color);
+        }
+        
+        .conditions-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .conditions-list li {
+            background-color: var(--light-color);
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: none;
+        }
+        
+        .no-slots {
+            color: var(--accent-color);
+            font-weight: 600;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+        
+        .close-btn:hover {
+            color: var(--accent-color);
+        }
+        
+        .modal-title {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .submit-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .secondary-btn {
+            background-color: var(--light-color);
+            color: var(--text-color);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .secondary-btn:hover {
+            background-color: #d5dbdb;
+        }
+        
+        .expand-btn {
+            background: none;
+            border: none;
+            color: var(--secondary-color);
+            cursor: pointer;
+            padding: 5px;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .expand-btn i {
+            margin-left: 5px;
+        }
+        
+        .hidden-content {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .doctor-image {
+                flex: 0 0 100%;
+                height: 250px;
+            }
+            
+            .appointment-btn {
+                position: static;
+                width: 100%;
+                margin-top: 20px;
+            }
+            
+            .modal-content {
+                margin: 20% auto;
+                width: 90%;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="doctor-header">
+            <div class="doctor-image">
+                <img src="data:image/jpeg;base64,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" alt="Dr.Bibhore Sengupta">
+            </div>
+            <div class="doctor-info">
+                <h1 class="doctor-name">Dr.Bibhore Sengupta</h1>
+                <p class="doctor-specialty">Pulmonologist</p>
+                
+                <div class="doctor-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>MBBS, MD in Respiratory Medicine, FCCP (USA), Pulmonologist </span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-briefcase"></i>
+                        <span>30 years of clinical experience</span>
+                        <span>17 years dedicated to medical teaching and advanced pulmonary interventions</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-language"></i>
+                        <span>English, Hindi, Bengali</span>
+                    </div>
+                </div>
+                
+                <div class="doctor-rating">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <span class="rating-count">4.7 (135 reviews)</span>
+                </div>
+                
+                <button id="appointmentBtn" class="appointment-btn">Request Appointment</button>
+                <p id="noSlots" class="no-slots">No slots available at this time</p>
+            </div>
+        </div>
+        
+        <div class="doctor-details">
+            <div class="details-section">
+                <h2 class="section-title">Overview</h2>
+                <p class="overview-text">
+                    Prof. (Dr.) Bibhore Sengupta is a highly accomplished and senior Pulmonologist, Respiratory & Critical Care Medicine Specialist with more than 30 years of medical experience, including over 23 years of specialization in pulmonary medicine. A former Major in the Indian Army Medical Corps, Dr. Sengupta combines military discipline with world-class clinical expertise in lung health, interventional pulmonology, and respiratory diagnostics.
+                </p>
+                <p class="overview-text">
+                    He is currently associated with leading hospitals and diagnostics centers in Kolkata including Ruby General Hospital, Apollo Clinic (Thakurpukur), Pulse Diagnostics (Behala & Lansdowne), and Desun Hospital. He is also a respected medical educator and academician, having taught medical students and postgraduate trainees for over 17 years as a senior faculty member under WBUHS and other institutions.
+                </p>
+                <button class="expand-btn" id="expandOverview">Read more <i class="fas fa-chevron-down"></i></button>
+                <div class="hidden-content" id="moreOverview">
+                    <p class="overview-text">
+                        Dr. Sengupta is recognized for his expertise in treating chronic respiratory conditions such as COPD, asthma, tuberculosis, ILD, and sleep apnea, as well as in managing respiratory failure, COVID-related lung damage, and lung cancer through advanced bronchoscopic and thoracoscopic techniques.
+                    </p>
+                    <p class="overview-text">
+                        He is fluent in English, Hindi, and Bengali, allowing him to cater to a broad and diverse patient population.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="details-section">
+                <h2 class="section-title">Experience</h2>
+                <div class="experience-item">
+                    <div class="experience-period">2025 - Present</div>
+                    <div class="experience-position">Senior Consultant – Pulmonology & Respiratory</div>
+                    <div class="experience-hospital">• Ruby General Hospital, Kolkata
+                                                     • Apollo Clinic, Thakurpukur
+                                                     • Pulse Diagnostics, Behala & Lansdowne
+                                                     • Desun Hospital, Kolkata
+                                                     • Haldia Medical College
+                                                     • Kothari Medical Centre
+                                                     • Academic Advisor and Teaching Faculty – WBUHS (17+ years)</div>
+                    <button class="expand-btn" id="expandExperience1">Show details <i class="fas fa-chevron-down"></i></button>
+                    <div class="hidden-content" id="moreExperience1">
+                        <p>Interventional Pulmonology: Bronchoscopy, Thoracoscopy, EBUS, Cryobiopsy, Airway stenting</p>
+                    </div>
+                </div>
+                <div class="experience-item">
+                    <div class="experience-period">2010 - 2015</div>
+                    <div class="experience-position">Former Major</div>
+                    <div class="experience-hospital">Indian Army Medical Corps</div>
+                    <button class="expand-btn" id="expandExperience2">Show details <i class="fas fa-chevron-down"></i></button>
+                    <div class="hidden-content" id="moreExperience2">
+                        <p>Performed diagnostic and interventional cardiac procedures, participated in the hospital's cardiac care quality improvement committee, published research on heart failure management.</p>
+                    </div>
+                </div>
+                <div class="experience-item">
+                    <div class="experience-period">2007 - 2010</div>
+                    <div class="experience-position">Consultant Pulmonologist
+                        <br> Assistant Professor & Unit Head
+                    </div>
+                    <div class="experience-hospital">Numerous tertiary care hospitals across Eastern India
+                        <br> Armed Forces Medical College (AFMC), Pune
+                    </div>
+                    <button class="expand-btn" id="expandExperience3">Show details <i class="fas fa-chevron-down"></i></button>
+                    <div class="hidden-content" id="moreExperience3">
+                        <p>Completed advanced training in interventional cardiology, participated in groundbreaking research on stent technologies, received "Outstanding Fellow" award in final year.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="doctor-details">
+            <div class="details-section">
+                <h2 class="section-title">Memberships</h2>
+                <ul class="memberships-list">
+                    <li><i class="fas fa-user-md"></i>Fellow of the American College of Chest Physicians (FCCP - USA)</li>
+                    <li><i class="fas fa-user-md"></i>Member, American Thoracic Society (ATS)</li>
+                     <li><i class="fas fa-user-md"></i>Member, European Respiratory Society (ERS)</li>
+                      <li><i class="fas fa-user-md"></i>Member, Indian Chest Society (ICS)</li>
+                       <li><i class="fas fa-user-md"></i>Member, National College of Chest Physicians (NCCP)</li>
+                        <li><i class="fas fa-user-md"></i>Member, Indian Society of Critical Care Medicine (ISCCM)</li>
+                        <li><i class="fas fa-user-md"></i>Member, Association of Physicians of India (API)</li>
+                        <li><i class="fas fa-user-md"></i>Fellow, Academy of Clinical Training Sciences (AICTS)</li>
+                        <li><i class="fas fa-user-md"></i>Life Member, Indian Medical Association (IMA)</li>
+                </ul>
+                <button class="secondary-btn" id="viewCertifications">View Certifications</button>
+            </div>
+            
+            <div class="details-section">
+                <h2 class="section-title">Research & Publications</h2>
+                <ul class="publications-list">
+                    <li><i class="fas fa-file-alt"></i> "MBBS" – North Bengal Medical College (circa 1990)</li>
+                    <li><i class="fas fa-file-alt"></i> "MD in Respiratory Medicine" – Armed Forces Medical College, Pune (2000)</li>
+                    <li><i class="fas fa-file-alt"></i> "FCCP (USA)" – Fellow of the American College of Chest Physicians</li>
+                    <li><i class="fas fa-file-alt"></i> "Additional qualifications": AICTS, FNCCP, DIP DHM (NIHFW)</li>
+                </ul>
+                <button class="secondary-btn" id="viewAllPublications">View All Publications</button>
+            </div>
+        </div>
+        
+        <div class="details-section">
+            <h2 class="section-title">Conditions Treated</h2>
+            <ul class="conditions-list">
+                <li>Chronic Obstructive Pulmonary Disease (COPD)</li>
+                <li>Bronchial Asthma</li>
+                <li>Chronic Bronchitis</li>
+                <li>Bronchiectasis</li>
+                <li>Emphysema</li>
+                <li>Pneumonia (bacterial, viral, fungal)</li>
+                <li>Tuberculosis (Pulmonary & Extrapulmonary TB)</li>
+                <li>Drug-resistant TB (MDR-TB, XDR-TB)</li>
+                <li>Post-Tuberculosis lung complications</li>
+                <li>Interstitial Lung Disease (ILD)</li>
+                <li>Hypersensitivity Pneumonitis</li>
+                <li>Pulmonary Fibrosis</li>
+                <li>Allergic Bronchopulmonary Aspergillosis (ABPA)</li>
+                <li>Sarcoidosis</li>
+                <li>Acute Respiratory Distress Syndrome (ARDS)</li>
+                <li>Severe COVID-19 Pneumonia and Post-COVID Lung Damage</li>
+                <li>Respiratory Failure</li>
+                <li>Ventilator management</li>
+                <li>ECMO (Extracorporeal Membrane Oxygenation) support</li> 
+                <li>Silicosis</li>
+                <li>Asbestosis</li>
+                <li>Farmer's lung</li>
+                <li>Smoke or chemical inhalation injury</li>
+            </ul>
+            <button class="secondary-btn" id="viewAllConditions">View All Conditions</button>
+        </div>
+    </div>
+
+    <!-- Appointment Modal -->
+    <div id="appointmentModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2 class="modal-title">Request Appointment</h2>
+            <form id="appointmentForm">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="date">Preferred Date</label>
+                    <input type="date" id="date" required>
+                </div>
+                <div class="form-group">
+                    <label for="time">Preferred Time</label>
+                    <select id="time" required>
+                        <option value="">Select a time</option>
+                        <option value="09:00">9:00 AM</option>
+                        <option value="10:00">10:00 AM</option>
+                        <option value="11:00">11:00 AM</option>
+                        <option value="13:00">1:00 PM</option>
+                        <option value="14:00">2:00 PM</option>
+                        <option value="15:00">3:00 PM</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="reason">Reason for Visit</label>
+                    <textarea id="reason" rows="3"></textarea>
+                </div>
+                <div class="action-buttons">
+                    <button type="submit" class="submit-btn">Submit Request</button>
+                    <button type="button" class="secondary-btn" id="cancelAppointment">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Certifications Modal -->
+    <div id="certificationsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2 class="modal-title">Certifications</h2>
+            <ul class="memberships-list">
+                <li><i class="fas fa-certificate"></i> 🎓 MBBS – North Bengal Medical College</li>
+                <li><i class="fas fa-certificate"></i> 🎓 MD in Respiratory Medicine – Armed Forces Medical College, Pune</li>
+                <li><i class="fas fa-certificate"></i> 🎓 DIP DHM – Diploma in Hospital Management, NIHFW (Delhi)</li>
+                <li><i class="fas fa-certificate"></i> 🏅 FCCP (USA) – Fellow of the American College of Chest Physicians</li>
+                <li><i class="fas fa-certificate"></i> 🏅 FNCCP (India) – Fellow of National College of Chest Physicians</li>
+                <li><i class="fas fa-certificate"></i> 🏅 Certified Sleep Study Specialist – CPAP & BiPAP management</li>
+                <li><i class="fas fa-certificate"></i> 🏅 Certified Bronchoscopist and Interventional Pulmonologist</li>
+                <li><i class="fas fa-certificate"></i> 🏅 Recipient of Health Care Excellence Award (2015) – Presented by the Hon'ble Union Health Minister</li>
+
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Appointment functionality
+            const appointmentBtn = document.getElementById('appointmentBtn');
+            const noSlotsMsg = document.getElementById('noSlots');
+            const appointmentModal = document.getElementById('appointmentModal');
+            const closeModalBtns = document.querySelectorAll('.close-btn');
+            const cancelAppointmentBtn = document.getElementById('cancelAppointment');
+            const appointmentForm = document.getElementById('appointmentForm');
+            
+            // Check if slots are available (in a real app, this would be an API call)
+            const slotsAvailable = true;
+            
+            if (!slotsAvailable) {
+                appointmentBtn.classList.add('disabled');
+                noSlotsMsg.style.display = 'block';
+            }
+            
+            // Appointment button click
+            appointmentBtn.addEventListener('click', function() {
+                if (!slotsAvailable) return;
+                appointmentModal.style.display = 'block';
+            });
+            
+            // Close modal buttons
+            closeModalBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    appointmentModal.style.display = 'none';
+                    document.getElementById('certificationsModal').style.display = 'none';
+                });
+            });
+            
+            // Cancel appointment button
+            cancelAppointmentBtn.addEventListener('click', function() {
+                appointmentModal.style.display = 'none';
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === appointmentModal) {
+                    appointmentModal.style.display = 'none';
+                }
+                if (event.target === document.getElementById('certificationsModal')) {
+                    document.getElementById('certificationsModal').style.display = 'none';
+                }
+            });
+            
+            // Form submission
+            appointmentForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                // In a real app, this would send data to server
+                alert('Appointment request submitted successfully!');
+                appointmentModal.style.display = 'none';
+                appointmentForm.reset();
+            });
+            
+            // Expandable sections
+            const expandOverview = document.getElementById('expandOverview');
+            const moreOverview = document.getElementById('moreOverview');
+            
+            expandOverview.addEventListener('click', function() {
+                moreOverview.style.display = moreOverview.style.display === 'block' ? 'none' : 'block';
+                expandOverview.innerHTML = moreOverview.style.display === 'block' ? 
+                    'Show less <i class="fas fa-chevron-up"></i>' : 
+                    'Read more <i class="fas fa-chevron-down"></i>';
+            });
+            
+            // Experience expand buttons
+            for (let i = 1; i <= 3; i++) {
+                const expandBtn = document.getElementById(`expandExperience${i}`);
+                const moreContent = document.getElementById(`moreExperience${i}`);
+                
+                expandBtn.addEventListener('click', function() {
+                    moreContent.style.display = moreContent.style.display === 'block' ? 'none' : 'block';
+                    expandBtn.innerHTML = moreContent.style.display === 'block' ? 
+                        'Hide details <i class="fas fa-chevron-up"></i>' : 
+                        'Show details <i class="fas fa-chevron-down"></i>';
+                });
+            }
+            
+            // View Certifications button
+            document.getElementById('viewCertifications').addEventListener('click', function() {
+                document.getElementById('certificationsModal').style.display = 'block';
+            });
+            
+            // View All Publications button
+            document.getElementById('viewAllPublications').addEventListener('click', function() {
+                alert('This would show all publications in a real application');
+            });
+            
+            // View All Conditions button
+            document.getElementById('viewAllConditions').addEventListener('click', function() {
+                alert('This would show all conditions treated in a real application');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Meditation Reminder</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #e8f5e9;
+      margin: 0;
+      padding: 30px;
+      color: #2e7d32;
+      animation: fadeInBody 1.5s ease-in;
+    }
+
+    h1, h2 {
+      text-align: center;
+      animation: fadeInDown 1s ease forwards;
+    }
+
+    .section {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 30px auto;
+      max-width: 800px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 1s ease forwards;
+      animation-delay: 0.5s;
+    }
+
+    ul, ol {
+      padding-left: 20px;
+    }
+
+    .timer-controls {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    #timer {
+      font-size: 36px;
+      font-weight: bold;
+      margin-top: 10px;
+      color: #1b5e20;
+      animation: pulse 1.5s infinite;
+    }
+
+    button {
+      background-color: #388e3c;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin: 5px;
+      font-size: 16px;
+      transition: transform 0.3s ease, background-color 0.3s;
+      animation: fadeInUp 1s ease forwards;
+      animation-delay: 1s;
+    }
+
+    button:hover {
+      background-color: #2e7d32;
+      transform: scale(1.05);
+    }
+
+    input[type="number"] {
+      padding: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      width: 60px;
+      margin-left: 5px;
+    }
+
+    iframe, audio {
+      display: block;
+      margin: 20px auto;
+      max-width: 100%;
+      border-radius: 10px;
+      animation: fadeInUp 1.2s ease forwards;
+    }
+
+    iframe {
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .soundcloud-player {
+      margin-bottom: 20px;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.8s ease forwards;
+    }
+
+    .soundcloud-player:nth-child(1) { animation-delay: 0.2s; }
+    .soundcloud-player:nth-child(2) { animation-delay: 0.4s; }
+    .soundcloud-player:nth-child(3) { animation-delay: 0.6s; }
+    .soundcloud-player:nth-child(4) { animation-delay: 0.8s; }
+    .soundcloud-player:nth-child(5) { animation-delay: 1s; }
+    .soundcloud-player:nth-child(6) { animation-delay: 1.2s; }
+    .soundcloud-player:nth-child(7) { animation-delay: 1.4s; }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInBody {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🧘 Meditation Reminder</h1>
+
+  <div class="section">
+    <h2>🌿 Tutorial</h2>
+    <p>Meditation is a great way to relieve stress and improve focus. Here’s how you can get started:</p>
+    <ul>
+      <li>Find a quiet space with no distractions.</li>
+      <li>Choose a comfortable seated position.</li>
+      <li>Play the relaxing music or video below.</li>
+      <li>Use the timer to guide your session.</li>
+      <li>Follow the step-by-step meditation guide.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>📋 Steps to Meditate</h2>
+    <ol>
+      <li>Close your eyes gently.</li>
+      <li>Take a deep breath in… and slowly breathe out.</li>
+      <li>Focus on your breath. Inhale… Exhale…</li>
+      <li>If your mind wanders, gently bring your attention back.</li>
+      <li>Continue until the timer ends or you feel ready.</li>
+    </ol>
+  </div>
+
+  <div class="section">
+    <h2>🎧 Relaxing Mind Songs</h2>
+
+    <div class="soundcloud-player">
+      <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
+        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/sam_relaxation/10-minutes-music-for-meditation-relaxing-music&color=%2300a86b&auto_play=false&show_comments=false&show_user=true&visual=false">
+      </iframe>
+    </div>
+
+    <div class="soundcloud-player">
+      <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
+        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/sam_relaxation/track_16&color=%2300a86b&auto_play=false&show_comments=false&show_user=true&visual=false">
+      </iframe>
+    </div>
+
+    <div class="soundcloud-player">
+      <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
+        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/sam_relaxation/remove-your-negative-energy-and-take-a-deep-sleep&color=%2300a86b&auto_play=false&show_comments=false&show_user=true&visual=false">
+      </iframe>
+    </div>
+
+    <div class="soundcloud-player">
+      <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
+        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/sam_relaxation/2021082504r&color=%2300a86b&auto_play=false&show_comments=false&show_user=true&visual=false">
+      </iframe>
+    </div>
+
+    <div class="soundcloud-player">
+      <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
+        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/sam_relaxation/10-minute-meditation-music-relaxing-music-calming-music-stress-relief-music-study-music&color=%2300a86b&auto_play=false&show_comments=false&show_user=true&visual=false">
+      </iframe>
+    </div>
+
+    <div class="soundcloud-player">
+      <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
+        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/sam_relaxation/30-minute-deep-sleep-music-calming-music-relaxing-music-soothing-music-calmi&color=%2300a86b&auto_play=false&show_comments=false&show_user=true&visual=false">
+      </iframe>
+    </div>
+
+    <div class="soundcloud-player">
+      <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
+        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/sam_relaxation/meditation-22322&color=%2300a86b&auto_play=false&show_comments=false&show_user=true&visual=false">
+      </iframe>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🎥 Meditation Video</h2>
+    <iframe 
+      width="720" 
+      height="405" 
+      src="https://www.youtube.com/embed/DulNz2CkoHI?rel=0" 
+      title="Guided Meditation Video" 
+      frameborder="0" 
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <div class="section">
+    <h2>⏳ Meditation Timer</h2>
+    <div class="timer-controls">
+      <label for="minutes">Set Minutes:</label>
+      <input type="number" id="minutes" min="1" value="5" />
+      <button onclick="startTimer()">Start</button>
+      <button onclick="resetTimer()">Reset</button>
+      <div id="timer">05:00</div>
+    </div>
+  </div>
+
+  <script>
+    let countdown;
+    let remainingTime = 300;
+
+    function startTimer() {
+      clearInterval(countdown);
+      const minutes = parseInt(document.getElementById('minutes').value);
+      remainingTime = minutes * 60;
+      updateDisplay(remainingTime);
+      countdown = setInterval(() => {
+        remainingTime--;
+        if (remainingTime <= 0) {
+          clearInterval(countdown);
+          alert("⏰ Meditation session complete!");
+        }
+        updateDisplay(remainingTime);
+      }, 1000);
+    }
+
+    function resetTimer() {
+      clearInterval(countdown);
+      const minutes = parseInt(document.getElementById('minutes').value);
+      remainingTime = minutes * 60;
+      updateDisplay(remainingTime);
+    }
+
+    function updateDisplay(seconds) {
+      const min = Math.floor(seconds / 60);
+      const sec = seconds % 60;
+      document.getElementById('timer').textContent =
+        `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitPro - Workout Videos</title>
+    <style>
+        /* Global Styles */
+        :root {
+            --primary: #4a6bff;
+            --secondary: #ff6b6b;
+            --dark: #333;
+            --light: #f8f9fa;
+            --male: #4a6bff;
+            --female: #ff6b6b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--secondary);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+        }
+        
+        /* Workout Navigation */
+        .workout-nav {
+            background-color: white;
+            padding: 20px 0;
+            position: sticky;
+            top: 80px;
+            z-index: 90;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .workout-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .workout-tab {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            border-radius: 30px;
+            transition: all 0.3s;
+        }
+        
+        .workout-tab.active {
+            color: white;
+        }
+        
+        .workout-tab[data-category="gym"] {
+            border: 2px solid var(--primary);
+        }
+        
+        .workout-tab[data-category="gym"].active {
+            background-color: var(--primary);
+        }
+        
+        .workout-tab[data-category="home"] {
+            border: 2px solid var(--secondary);
+        }
+        
+        .workout-tab[data-category="home"].active {
+            background-color: var(--secondary);
+        }
+        
+        .workout-tab[data-gender="male"] {
+            border: 2px solid var(--male);
+        }
+        
+        .workout-tab[data-gender="male"].active {
+            background-color: var(--male);
+            color: white;
+        }
+        
+        .workout-tab[data-gender="female"] {
+            border: 2px solid var(--female);
+        }
+        
+        .workout-tab[data-gender="female"].active {
+            background-color: var(--female);
+            color: white;
+        }
+        
+        /* Workout Sections */
+        .workout-section {
+            padding: 60px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title h2 {
+            font-size: 36px;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+        
+        .section-title p {
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* Workout Videos */
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .video-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .video-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .video-info {
+            padding: 20px;
+        }
+        
+        .video-info h3 {
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        .video-info p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        /* Equipment Section */
+        .equipment-section {
+            padding: 60px 0;
+            background-color: #f5f7fa;
+        }
+        
+        .equipment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .equipment-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .equipment-img {
+            height: 200px;
+            width: 100%;
+            object-fit: contain;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        
+        .equipment-content {
+            padding: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .equipment-content h3 {
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        .equipment-content .price {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .buy-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .buy-link {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .amazon {
+            background-color: #FF9900;
+        }
+        
+        .flipkart {
+            background-color: #2874F0;
+        }
+        
+        .meesho {
+            background-color: #E43A5A;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #bbb;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+            color: #bbb;
+            font-size: 14px;
+        }
+        
+        /* Utility Classes */
+        .hidden {
+            display: none;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background-color: white;
+                flex-direction: column;
+                align-items: center;
+                padding-top: 40px;
+                transition: left 0.3s;
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .nav-links li {
+                margin: 15px 0;
+            }
+        
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .workout-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .workout-tab {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">Healthmate<span>FitPro</span></a>
+                <button class="mobile-menu-btn">☰</button>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#workouts">Workouts</a></li>
+                    <li><a href="#equipment">Equipment</a></li>
+                    <li><a href="#" class="btn btn-primary">Sign Up</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>Personalized Workout Plans</h1>
+            <p>Custom workout videos for men and women, whether you prefer the gym or exercising at home.</p>
+            <a href="#workouts" class="btn">Get Started</a>
+        </div>
+    </section>
+
+    <!-- Workout Navigation -->
+    <div class="workout-nav" id="workouts">
+        <div class="container">
+            <div class="workout-tabs">
+                <button class="workout-tab active" data-category="gym">Gym Workouts</button>
+                <button class="workout-tab" data-category="home">Home Workouts</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Workout Sections -->
+    <div class="container">
+        <!-- Male Gym Workouts -->
+        <section class="workout-section" id="male-gym">
+            <div class="section-title">
+                <h2>Gym Workouts for Men</h2>
+                <p>Build muscle and strength with these professional gym workout routines designed specifically for men.</p>
+            </div>
+            
+            <div class="videos-grid">
+                <div class="video-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/eTxO5ZMxcsc?si=71BPZzpaJs_WMugg" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>Full Body Gym Workout</h3>
+                        <p>45-minute complete gym session targeting all major muscle groups.</p>
+                        <div class="btn btn-primary">Watch Now</div>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/O20cidiJ-rg?si=yO3ZNeIvbfSTQLpY" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>Chest & Back Day</h3>
+                        <p>Intense upper body workout focusing on chest and back muscles.</p>
+                        <div class="btn btn-primary">Watch Now</div>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/H6mRkx1x77k?si=5F1K6qQjJJWykTO0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>Leg Day Routine</h3>
+                        <p>Build strong legs with this comprehensive lower body workout.</p>
+                        <div class="btn btn-primary">Watch Now</div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="section-title">
+                <h2>Gym Workouts for Women</h2>
+                <p>Tone your body and build strength with these gym workouts designed for women.</p>
+            </div>
+            
+           <div class="videos-grid">
+                <div class="video-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/0zhvUV1bAVQ?si=FlewYOGGQpv534Qc" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>Full Body Toning</h3>
+                        <p>Sculpt and tone your entire body with this gym routine.</p>
+                        <div class="btn btn-primary">Watch Now</div>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/_Nh6JgAdZUs?si=bXSXHtB32Z3tO79n" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>Glutes & Legs Workout</h3>
+                        <p>Shape your lower body with this targeted workout.</p>
+                        <div class="btn btn-primary">Watch Now</div>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/fWT-_jx41Jc?si=4l9smdTOuwxi7Koc" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>Arm & Back Definition</h3>
+                        <p>Get strong, toned arms and back with these exercises.</p>
+                        <div class="btn btn-primary">Watch Now</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Male Home Workouts -->
+        <section class="workout-section hidden" id="male-home">
+            <div class="section-title">
+                <h2>Home Workouts for Men</h2>
+                <p>Effective workout routines you can do at home with minimal or no equipment.</p>
+            </div>
+            
+            <div class="videos-grid">
+                <div class="video-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/UIPvIYsjfpo?si=I8bpt_ja5iy4XHSB" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>No Equipment Full Body</h3>
+                        <p>Bodyweight exercises to build strength without any equipment.</p>
+                        <div class="btn btn-primary">Watch Now</div>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/qwx1VV9vV1A?si=62l9H1cQmNeOTv2n" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>Home Chest Workout</h3>
+                        <p>Build your chest muscles using just your body weight.</p>
+                        <div class="btn btn-primary">Watch Now</div>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/7KSNmziMqog" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>Core & Abs Routine</h3>
+                        <p>Strengthen your core with these effective ab exercises.</p>
+                        <div class="btn btn-primary">Watch Now</div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="section-title">
+                <h2>Home Workouts for Women</h2>
+                <p>Effective workout routines you can do at home with minimal or no equipment.</p>
+            </div>
+            
+            <div class="videos-grid">
+                <div class="video-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/cbKkB3POqaY?si=zFfNvGHvtxpQZ8uN" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>No Equipment Full Body</h3>
+                        <p>Bodyweight exercises to build strength without any equipment.</p>
+                        <div class="btn btn-primary">Watch Now</div>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/qwZV_29_ezI?si=61MBqGqs5CcCOCge" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>Home Chest Workout</h3>
+                        <p>Build your chest muscles using just your body weight.</p>
+                        <div class="btn btn-primary">Watch Now</div>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/3oeimlA6s68?si=MbQFiNWsdCl1Vruf" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>Core & Abs Routine</h3>
+                        <p>Strengthen your core with these effective ab exercises.</p>
+                        <div class="btn btn-primary">Watch Now</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Female Gym Workouts -->
+        <section class="workout-section hidden" id="female-gym">
+            <div class="section-title">
+                <h2>Gym Workouts for Men/Women</h2>
+                <p>Tone your body and build strength with these gym workouts designed for women.</p>
+            </div>
+            
+            <div class="videos-grid">
+                <div class="video-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/0zhvUV1bAVQ?si=FlewYOGGQpv534Qc" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>Full Body Toning</h3>
+                        <p>Sculpt and tone your entire body with this gym routine.</p>
+                        <div class="btn btn-primary">Watch Now</div>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/_Nh6JgAdZUs?si=bXSXHtB32Z3tO79n" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>Glutes & Legs Workout</h3>
+                        <p>Shape your lower body with this targeted workout.</p>
+                        <div class="btn btn-primary">Watch Now</div>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/fWT-_jx41Jc?si=4l9smdTOuwxi7Koc" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>Arm & Back Definition</h3>
+                        <p>Get strong, toned arms and back with these exercises.</p>
+                        <div class="btn btn-primary">Watch Now</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    <!-- Female Home Workouts -->
+        <section class="workout-section hidden" id="female-home">
+            <div class="section-title">
+                <h2>Home Workouts for Women</h2>
+                <p>Stay fit at home with these effective workout routines designed for women.</p>
+            </div>
+            
+            <div class="videos-grid">
+                <div class="video-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/GFs2hHnLv3s" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>Full Body Fat Burn</h3>
+                        <p>Burn calories and tone your entire body at home.</p>
+                        <div class="btn btn-primary">Watch Now</div>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/oAPCPjnU1wA" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>Yoga for Strength</h3>
+                        <p>Combine strength building with flexibility in this yoga session.</p>
+                        <div class="btn btn-primary">Watch Now</div>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/9c8vS4y9Qd4" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>Pilates Core Workout</h3>
+                        <p>Strengthen your core and improve posture with Pilates.</p>
+                        <div class="btn btn-primary">Watch Now</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Equipment Section -->
+    <section class="equipment-section" id="equipment">
+        <div class="container">
+            <div class="section-title">
+                <h2>Recommended Workout Equipment</h2>
+                <p>Enhance your workouts with these essential equipment available on popular platforms.</p>
+            </div>
+            
+            <div class="equipment-grid">
+                <div class="equipment-card">
+                    <img src="pic1.jpg.png" alt="Dumbbell Set" class="equipment-img">
+                    <div class="equipment-content">
+                        <h3>Adjustable Dumbbell Set</h3>
+                        <div class="price">₹1,499 - ₹3,999</div>
+                        <div class="buy-links">
+                            <a href="https://www.amazon.in/s?k=adjustable+dumbbell" target="_blank" class="buy-link amazon">Amazon</a>
+                            <a href="https://www.flipkart.com/search?q=adjustable+dumbbell" target="_blank" class="buy-link flipkart">Flipkart</a>
+                            <a href="https://www.meesho.com/search?q=adjustable+dumbbell" target="_blank" class="buy-link meesho">Meesho</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="equipment-card">
+                    <img src="pic2.jpg.png" alt="Yoga Mat" class="equipment-img">
+                    <div class="equipment-content">
+                        <h3>Premium Yoga Mat</h3>
+                        <div class="price">₹499 - ₹1,299</div>
+                        <div class="buy-links">
+                            <a href="https://www.amazon.in/s?k=yoga+mat" target="_blank" class="buy-link amazon">Amazon</a>
+                            <a href="https://www.flipkart.com/search?q=yoga+mat" target="_blank" class="buy-link flipkart">Flipkart</a>
+                            <a href="https://www.meesho.com/search?q=yoga+mat" target="_blank" class="buy-link meesho">Meesho</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="equipment-card">
+                    <img src="pic3.jpg.png" alt="Resistance Bands" class="equipment-img">
+                    <div class="equipment-content">
+                        <h3>Resistance Bands Set</h3>
+                        <div class="price">₹299 - ₹799</div>
+                        <div class="buy-links">
+                            <a href="https://www.amazon.in/s?k=resistance+bands" target="_blank" class="buy-link amazon">Amazon</a>
+                            <a href="https://www.flipkart.com/search?q=resistance+bands" target="_blank" class="buy-link flipkart">Flipkart</a>
+                            <a href="https://www.meesho.com/search?q=resistance+bands" target="_blank" class="buy-link meesho">Meesho</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="equipment-card">
+                    <img src="pic4.jpg.png" alt="Jump Rope" class="equipment-img">
+                    <div class="equipment-content">
+                        <h3>Speed Jump Rope</h3>
+                        <div class="price">₹199 - ₹499</div>
+                        <div class="buy-links">
+                            <a href="https://www.amazon.in/s?k=jump+rope" target="_blank" class="buy-link amazon">Amazon</a>
+                            <a href="https://www.flipkart.com/search?q=jump+rope" target="_blank" class="buy-link flipkart">Flipkart</a>
+                            <a href="https://www.meesho.com/search?q=jump+rope" target="_blank" class="buy-link meesho">Meesho</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Healthmate FitPro</h3>
+                    <p>Your complete guide to fitness with personalized workout plans for men and women.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Workouts</h3>
+                    <ul class="footer-links">
+                        <li><a href="#male-gym">Men's Gym</a></li>
+                        <li><a href="#male-home">Men's Home</a></li>
+                        <li><a href="#female-gym">Women's Gym</a></li>
+                        <li><a href="#female-home">Women's Home</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Equipment</h3>
+                    <ul class="footer-links">
+                        <li><a href="#equipment">Gym Equipment</a></li>
+                        <li><a href="#equipment">Home Equipment</a></li>
+                        <li><a href="#equipment">Accessories</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li><a href="mailto:info@fitpro.com">rajofacts9@gmail.com.com</a></li>
+                        <li><a href="tel:+919876543210">+91 8348458035</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 HealthmateFitPro. All rights reserved by healthmate platform.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+        
+        // Workout Tab Functionality
+        const workoutTabs = document.querySelectorAll('.workout-tab');
+        const workoutSections = {
+            'male-gym': document.getElementById('male-gym'),
+            'male-home': document.getElementById('male-home'),
+            'female-gym': document.getElementById('female-gym'),
+            'female-home': document.getElementById('female-home')
+        };
+        
+        // Set initial active section
+        let activeGender = 'male';
+        let activeCategory = 'gym';
+        
+        workoutTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Update active tab styling
+                if (tab.hasAttribute('data-gender')) {
+                    workoutTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    activeGender = tab.getAttribute('data-gender');
+                } else if (tab.hasAttribute('data-category')) {
+                    workoutTabs.forEach(t => {
+                        if (t.hasAttribute('data-category')) {
+                            t.classList.remove('active');
+                        }
+                    });
+                    tab.classList.add('active');
+                    activeCategory = tab.getAttribute('data-category');
+                }
+                
+                // Hide all sections
+                Object.values(workoutSections).forEach(section => {
+                    section.classList.add('hidden');
+                });
+                
+                // Show active section
+                const activeSectionId = `${activeGender}-${activeCategory}`;
+                workoutSections[activeSectionId].classList.remove('hidden');
+                
+                // Scroll to the active section
+                workoutSections[activeSectionId].scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Rate Monitor</title>
+    <link rel="stylesheet" href="heart-rate-styles.css">
+</head>
+<body>
+    <div class="heart-rate-monitor">
+        <h1 class="title">❤️ Heart Rate Checker</h1>
+        
+        <div class="sensor" id="sensor">
+            <div class="sensor-pad"></div>
+            <p>Place Finger Here</p>
+        </div>
+        
+        <div class="ecg-graph" id="ecg-graph">
+            <svg class="ecg-line" id="ecg-line" viewBox="0 0 500 100" preserveAspectRatio="none"></svg>
+        </div>
+        
+        <div class="bpm-display">
+            <span id="bpm-value">--</span>
+            <span class="bpm-unit">BPM</span>
+        </div>
+        
+        <div class="controls">
+            <button id="start-btn">Start</button>
+            <button id="stop-btn" disabled>Stop</button>
+        </div>
+        
+        <div class="heart-rate-status">
+            <div class="status-indicator" id="status-indicator"></div>
+            <span id="status-text">Ready to measure</span>
+        </div>
+        
+        <div class="heart-rate-zones">
+            <div class="zone resting">
+                <span>Resting</span>
+                <span>60-100 BPM</span>
+            </div>
+            <div class="zone elevated">
+                <span>Elevated</span>
+                <span>101-120 BPM</span>
+            </div>
+            <div class="zone high">
+                <span>High</span>
+                <span>121+ BPM</span>
+            </div>
+        </div>
+    </div>
+    
+    <script src="heart-rate-script.js"></script>
+</body>
+</html>

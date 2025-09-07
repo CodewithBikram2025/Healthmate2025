@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Reminder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin: auto;
+        }
+        h2 {
+            color: #333;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        button {
+            background: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #218838;
+        }
+        .reminders {
+            text-align: left;
+            margin-top: 20px;
+        }
+        .reminder-item {
+            background: #e9ecef;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Appointment Reminder</h2>
+        <input type="text" id="appointmentDesc" placeholder="Enter Appointment Description">
+        <input type="date" id="appointmentDate">
+        <input type="time" id="appointmentTime">
+        <button onclick="addReminder()">Set Reminder</button>
+        
+        <div class="reminders">
+            <h3>Upcoming Appointments:</h3>
+            <div id="reminderList"></div>
+        </div>
+    </div>
+
+    <script>
+        function addReminder() {
+            let desc = document.getElementById("appointmentDesc").value;
+            let date = document.getElementById("appointmentDate").value;
+            let time = document.getElementById("appointmentTime").value;
+
+            if (desc === "" || date === "" || time === "") {
+                alert("Please fill in all fields!");
+                return;
+            }
+
+            let reminderList = document.getElementById("reminderList");
+            let reminderItem = document.createElement("div");
+            reminderItem.className = "reminder-item";
+            reminderItem.innerHTML = `<strong>${desc}</strong> - ${date} at ${time}`;
+            
+            reminderList.appendChild(reminderItem);
+
+            // Clear inputs after adding
+            document.getElementById("appointmentDesc").value = "";
+            document.getElementById("appointmentDate").value = "";
+            document.getElementById("appointmentTime").value = "";
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>emergency contacts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        .profile {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .profile:last-child {
+            border-bottom: none;
+        }
+        .call-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .call-btn:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Emergency Contacts</h2>
+        <div class="profile">
+            <p><strong>Name:</strong> Bikramjit Pakhira</p>
+            <p><strong>Phone:</strong> 8348458035</p>
+            <a href="tel:+918348458035" class="call-btn">Call Now</a>
+        </div>
+        <div class="profile">
+            <p><strong>Name:</strong> Jit Ghosh</p>
+            <p><strong>Phone:</strong> 8100264762</p>
+            <a href="tel:+918100264762" class="call-btn">Call Now</a>
+        </div>
+        <div class="profile">
+            <p><strong>Name:</strong> Debasrita Mukherjee</p>
+            <p><strong>Phone:</strong> 9123601441</p>
+            <a href="tel:+919123601441" class="call-btn">Call Now</a>
+        </div>
+        <div class="profile">
+            <p><strong>Name:</strong> Jishu Daripa</p>
+            <p><strong>Phone:</strong> 8900687668</p>
+            <a href="tel:+918900687668" class="call-btn">Call Now</a>
+        </div>
+    </div>
+</body>
+</html>

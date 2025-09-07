@@ -1,0 +1,160 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f5f7fa;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1, h2, h3 {
+    color: #2c3e50;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #27ae60;
+}
+
+p {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #7f8c8d;
+}
+
+/* Calorie Checker Layout */
+.calorie-checker {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+}
+
+.food-selection {
+    flex: 2;
+}
+
+.calorie-result {
+    flex: 1;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Food Categories */
+.food-categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.category {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.category h3 {
+    margin-top: 0;
+    color: #27ae60;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 8px;
+}
+
+.food-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.food-options label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.food-options label:hover {
+    background: #e8f5e9;
+}
+
+/* Calorie Result Display */
+.total-calories {
+    font-size: 48px;
+    font-weight: bold;
+    color: #27ae60;
+    margin: 20px 0;
+}
+
+.calorie-message {
+    text-align: center;
+    margin-bottom: 20px;
+    font-style: italic;
+    color: #7f8c8d;
+}
+
+/* Calorie Scale */
+.calorie-scale {
+    width: 100%;
+    margin: 20px 0;
+}
+
+.scale-bar {
+    height: 20px;
+    background: linear-gradient(to right, #2ecc71, #f1c40f, #e74c3c);
+    border-radius: 10px;
+    position: relative;
+    margin-bottom: 5px;
+}
+
+.scale-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #7f8c8d;
+}
+
+/* Reset Button */
+#reset-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+    margin-top: auto;
+}
+
+#reset-btn:hover {
+    background: #c0392b;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .calorie-checker {
+        flex-direction: column;
+    }
+    
+    .food-categories {
+        grid-template-columns: 1fr;
+    }
+}
