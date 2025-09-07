@@ -30,11 +30,6 @@ Access to reliable healthcare remains a challenge for rural and low-income commu
 
 ---
 
-## 📸 Screenshots
-((img 1.png, img 2.png, img 3.png, img 4.png, img 5.png, img 6.png)
-
----
-
 ## 🏗️ Project Setup
 No installation required. Just open the website in any modern browser.  
 If running locally:  
